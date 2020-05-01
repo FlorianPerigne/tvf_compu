@@ -53,7 +53,7 @@ int main()
 			}
 			std::cout << std::endl;
 		}
-		
+
 		std::cout << "----- FULL STOCK PATH -----" << std::endl;
 
 		llong n_steps = 100;
@@ -109,6 +109,7 @@ int main()
 	{
 		std::cout << e.what() << std::endl;
 	}
+	
 	
 	return 0;
 }

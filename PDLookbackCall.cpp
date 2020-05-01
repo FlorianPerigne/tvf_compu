@@ -1,7 +1,7 @@
 #include "PDLookbackCall.hpp"
 
 PDLookbackCall::PDLookbackCall(int days, double strike)
-	:PDLoockback(strike, days)
+	:PDLookback(strike, days)
 {
 }
 
@@ -16,11 +16,11 @@ std::vector<std::vector<double>> PDLookbackCall::operator()(std::vector<std::vec
 		for (int j = 0; j < x[i].size(); j++)
 		{
 			double new_strike = 0;
-			for (int k = 0; k<std::min(PD_days,x[i][j].size()); k++)
+			for (int k = 0; k<std::min(PD_days,(int)x[i][j].size()); k++)
 			{
 				new_strike += x[i][j][k];
 			}
-			PD_strike = new_strike/min(PD_days,x[i][j].size());
+			PD_strike = new_strike/std::min(PD_days,(int)x[i][j].size());
 			Values[i][j] = (x[i][j][x[i][j].size()-1]  > PD_strike)? x[i][j][x[i][j].size()-1] - PD_strike : 0;
 		}
 	}

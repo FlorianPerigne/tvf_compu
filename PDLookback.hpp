@@ -6,7 +6,7 @@ class PDLookback : public PathDependent
 {
 	
 public:
-	PDLookback(int days);
+	PDLookback(double strike, int days);
 	
 protected:
 	int PD_days;
