@@ -70,7 +70,7 @@ int main()
 
 		std::cout << "----- MONTECARLO ------" << std::endl;
 
-		llong n_simu = 1000;
+		llong n_simu = 5000;
 
 		NonPathDependent* call_payoff = new NPDBasketCall(100, weights);
 		NonPathDependent* put_payoff = new NPDBasketPut(100, weights);
@@ -136,86 +136,69 @@ int main()
 		Simulation* MC_simul_quasi_CV = new Simulation(mc_solver_quasi_CV);
 		Simulation* MC_simul_quasi_anti_CV = new Simulation(mc_simul_quasi_anti_CV);
 
-		llong n_sims = 1000;
-
-		StocksFullPath* stocks_Div = new StocksStandardFullPath(biv_norm2, 100, 0, 1, { 3, 4 }, { 0.4, 0.8 }, 100);
-		StocksFullPath* stocks_Div_Anti = new StocksAntitheticFullPath(biv_norm2, 100, 0, 1, antithetic_function, { 3, 4 }, { 0.4, 0.8 }, 100);
-
-		// std::vector<std::vector<std::vector<double>>> testS = stocks_Div->Generate(100);
-		// std::vector<std::vector<std::vector<double>>> testS_anti = stocks_Div_Anti->Generate(100);
-
-		std::cout << "EXPECTATION AND VARIANCE OF MC" << std::endl;
-
-		// MC_simul_standard->compute_expectation(n_sims);
-		// MC_simul_standard->compute_variance(n_sims);
-
-		// MC_simul_quasi->compute_expectation(n_sims);
-		// MC_simul_quasi->compute_variance(n_sims);
-
-		// MC_simul_standard_anti->compute_expectation(n_sims);
-		// MC_simul_standard_anti->compute_variance(n_sims);
-
-		// MC_simul_CV->compute_expectation(n_sims);
-		// MC_simul_CV->compute_variance(n_sims);
-		
-		// MC_simul_quasi_anti->compute_expectation(n_sims);
-		// MC_simul_quasi_anti->compute_variance(n_sims);
-		
-		// MC_simul_anti_CV->compute_expectation(n_sims);
-		// MC_simul_anti_CV->compute_variance(n_sims);
-		
-		// MC_simul_quasi_CV->compute_expectation(n_sims);
-		// MC_simul_quasi_CV->compute_variance(n_sims);
-
-		// MC_simul_quasi_anti_CV->compute_expectation(n_sims);
-		// MC_simul_quasi_anti_CV->compute_variance(n_sims);		
-		
-
-		// std::cout << "STANDARD :: Expectation = " << MC_simul_standard->get_E() << ", Variance = " << MC_simul_standard->get_V() << std::endl;
-		// std::cout << "STANDARD ANTITHETIC :: Expectation = " << MC_simul_standard_anti->get_E() << ", Variance = " << MC_simul_standard_anti->get_V() << std::endl;
-		// std::cout << "STANDARD CONTROL VARIATE :: Expectation = " << MC_simul_CV->get_E() << ", Variance = " << MC_simul_CV->get_V() << std::endl;
-		// std::cout << "STANDARD ANTITHETIC CONTROL VARIATE:: Expectation = " << MC_simul_anti_CV->get_E() << ", Variance = " << MC_simul_anti_CV->get_V() << std::endl;
-
-
-		// std::cout << "QUASI :: Expectation = " << MC_simul_quasi->get_E() << ", Variance = " << MC_simul_quasi->get_V() << std::endl;
-		// std::cout << "QUASI ANTITHETIC :: Expectation = " << MC_simul_quasi_anti->get_E() << ", Variance = " << MC_simul_quasi_anti->get_V() << std::endl;
-		// std::cout << "QUASI CONTROL VARIATE :: Expectation = " << MC_simul_quasi_CV->get_E() << ", Variance = " << MC_simul_quasi_CV->get_V() << std::endl;
-		// std::cout << "QUASI ANTITHETIC CONTROL VARIATE :: Expectation = " << MC_simul_quasi_CV->get_E() << ", Variance = " << MC_simul_quasi_CV->get_V() << std::endl;
-
-		UniformGenerator* vdc3 = new VanDerCorput(1, 2);
-		UniformGenerator* vdc4 = new VanDerCorput(1, 3);
-		UniformGenerator* ecuyer3 = new EcuyerCombined(1, 1);
-
-		ContinuousGenerator* quasi_norm = new NormalMultiVariate(vdc3, vdc4, 0, cov);
-		ContinuousGenerator* norm = new NormalMultiVariate(ecuyer3, 0, cov);
-		
-		// norm2->export_csv(1000, "Norm2.csv");
-		// quasi_norm2->export_csv(1000, "QNorm.csv");
-
-		Basis* BLG = new BasisLaguerre(2);
-		StocksFullPath* stocksFP = new StocksStandardFullPath(norm, 100, mu , 1, 100);
-		StocksTerminal* stocksTT = new StocksStandardTerminal(norm, 100, mu, 1);
-		
-		MonteCarloLSM* mc_solverLSM = new MonteCarloLSM(stocks_Div, call_payoff_PD, n_sims, BLG, Call_clasic, prix_bs_div);
-		MonteCarlo* mc_solver_std = new MonteCarloEuropean(stocks_Div, call_payoff_PD, n_sims);
-
-		mc_solverLSM->Solve();
-		mc_solver_std->Solve();
-	
-		std::cout << "Price = " << mc_solverLSM->get_price() << std::endl;
-		std::cout << "Price = " << mc_solver_std->get_price() << std::endl;
+		llong n_sims = 100;
 
 		std::cout << "EXPECTATION AND VARIANCE IN FUNCTION OF N_SIMULATION of paths" << std::endl;
 
-		/*mc_solver_quasi_anti->Solve();
-		MC_simul_quasi_anti->variance_by_sims(200, { 10, 50, 100, 250, 500, 1000, 2000, 5000, 10000 }, "var_anti.csv");*/
+		//MC_simul_standard->variance_by_sims(150, { 10, 50, 100, 250, 500, 1000, 2000, 5000, 10000}, "var_MC_simul_standard.csv");
+		//MC_simul_quasi->variance_by_sims(150, { 10, 50, 100, 250, 500, 1000, 2000, 5000, 10000 }, "var_MC_simul_quasi.csv");
+		//MC_simul_standard_anti->variance_by_sims(150, { 10, 50, 100, 250, 500, 1000, 2000, 5000, 10000 }, "var_MC_simul_standard_anti.csv");
+		//MC_simul_quasi_anti->variance_by_sims(150, { 10, 50, 100, 250, 500, 1000, 2000, 5000, 10000 }, "var_MC_simul_quasi_anti.csv");
+		//MC_simul_CV->variance_by_sims(150, { 10, 50, 100, 250, 500, 1000, 2000, 5000, 10000 }, "var_MC_simul_CV.csv");
+		//MC_simul_anti_CV->variance_by_sims(150, { 10, 50, 100, 250, 500, 1000, 2000, 5000, 10000 }, "var_MC_simul_anti_CV.csv");
+		//MC_simul_quasi_CV->variance_by_sims(150, { 10, 50, 100, 250, 500, 1000, 2000, 5000, 10000 }, "var_MC_simul_quasi_CV.csv");
+		//MC_simul_quasi_anti_CV->variance_by_sims(150, { 10, 50, 100, 250, 500, 1000, 2000, 5000, 10000 }, "var_MC_simul_quasi_anti_CV.csv");
 		
+
+		clock_t start, end;
+
+		start = clock();
+		MC_simul_standard->expectation_by_sims(200, { 10000 }, "exp_MC_simul_standard.csv");
+		end = clock();
 		
- 		std::cout<<"--- CLOSED FORM PRICE ---"<<std::endl;
-		CFCall* Cl = new CFCall(100);
-		CFPut* Pt = new CFPut(100);
-		std::cout<<"Call Price ClosedForm: "<< (*Cl)(93, 0.0, 1, 0.2)<<std::endl;
-		std::cout<<"Put Price ClosedForm: "<< (*Pt)(93,0.0,1,0.2)<<std::endl;
+		std::cout << "Standard : " << double(end - start) / double(CLOCKS_PER_SEC) / 200 << std::setprecision(5) << std::endl;
+
+		start = clock();
+		MC_simul_quasi->expectation_by_sims(200, { 10000 }, "exp_MC_simul_quasi.csv");
+		end = clock();
+
+		std::cout << "Quasi : " << double(end - start) / double(CLOCKS_PER_SEC) / 200 << std::setprecision(5) << std::endl;
+
+		start = clock();
+		MC_simul_standard_anti->expectation_by_sims(200, { 10000 }, "exp_MC_simul_standard_anti.csv");
+		end = clock();
+
+		std::cout << "Standard Antithetic : " << double(end - start) / double(CLOCKS_PER_SEC) / 200 << std::setprecision(5) << std::endl;
+
+		start = clock();
+		MC_simul_quasi_anti->expectation_by_sims(200, { 10000 }, "exp_MC_simul_quasi_anti.csv");
+		end = clock();
+
+		std::cout << "Quasi Antithetic : " << double(end - start) / double(CLOCKS_PER_SEC) / 200 << std::setprecision(5) << std::endl;
+
+		start = clock();
+		MC_simul_CV->expectation_by_sims(200, { 10000 }, "exp_MC_simul_CV.csv");
+		end = clock();
+
+		std::cout << "Standard CV : " << double(end - start) / double(CLOCKS_PER_SEC) / 200 << std::setprecision(5) << std::endl;
+
+		start = clock();
+		MC_simul_anti_CV->expectation_by_sims(200, { 10000 }, "exp_MC_simul_anti_CV.csv");
+		end = clock();
+
+		std::cout << "Antithetic CV : " << double(end - start) / double(CLOCKS_PER_SEC) / 200 << std::setprecision(5) << std::endl;
+
+		start = clock();
+		MC_simul_quasi_CV->expectation_by_sims(200, { 10000 }, "exp_MC_simul_quasi_CV.csv");
+		end = clock();
+
+		std::cout << "Quasi CV : " << double(end - start) / double(CLOCKS_PER_SEC) / 200 << std::setprecision(5) << std::endl;
+
+		start = clock();
+		MC_simul_quasi_anti_CV->expectation_by_sims(200, { 10000 }, "exp_MC_simul_quasi_anti_CV.csv");
+		end = clock();
+
+		std::cout << "Quasi Antithetic CV : " << double(end - start) / double(CLOCKS_PER_SEC) / 200 << std::setprecision(5) << std::endl;
 
 	}
 	catch (std::exception & e)
