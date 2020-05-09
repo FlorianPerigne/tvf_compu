@@ -32,6 +32,7 @@ void MonteCarloLSM::Solve()
 	std::vector<double> Weights(mc_payoff->get_weights());
 	
 	std::vector<double> P2;
+
 	if (PD_or_NPD)
 	{
 		P2 = ((*MC_payoff_CV)(S, S[0][0].size()-1));
@@ -40,6 +41,7 @@ void MonteCarloLSM::Solve()
 	{
 		P2 = ((*MC_payoff_CV)(S));
 	}
+
 	std::vector<double> itm_path2(P2.size());
 	std::vector<double> Weights2(MC_payoff_CV->get_weights());
 
