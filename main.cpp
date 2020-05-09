@@ -59,9 +59,9 @@ int main()
 
 		std::vector<std::vector<double>> cov(2, std::vector<double>(2));
 
-		cov[0][0] = 0.2*0.2;
-		cov[1][1] = 0.2*0.2;
-		cov[0][1] = 0.9999*std::sqrt(cov[0][0])*std::sqrt(cov[1][1]);
+		cov[0][0] = 0.3*0.3;
+		cov[1][1] = 0.15*0.15;
+		cov[0][1] = 0.6*std::sqrt(cov[0][0])*std::sqrt(cov[1][1]);
 		cov[1][0] = cov[0][1];
 
 		ContinuousGenerator* biv_norm = new NormalMultiVariate(ecuyer, 0, cov);
@@ -136,69 +136,18 @@ int main()
 		Simulation* MC_simul_quasi_CV = new Simulation(mc_solver_quasi_CV);
 		Simulation* MC_simul_quasi_anti_CV = new Simulation(mc_simul_quasi_anti_CV);
 
-		llong n_sims = 100;
+		llong n_sims = 300;
 
 		std::cout << "EXPECTATION AND VARIANCE IN FUNCTION OF N_SIMULATION of paths" << std::endl;
 
-		//MC_simul_standard->variance_by_sims(150, { 10, 50, 100, 250, 500, 1000, 2000, 5000, 10000}, "var_MC_simul_standard.csv");
-		//MC_simul_quasi->variance_by_sims(150, { 10, 50, 100, 250, 500, 1000, 2000, 5000, 10000 }, "var_MC_simul_quasi.csv");
-		//MC_simul_standard_anti->variance_by_sims(150, { 10, 50, 100, 250, 500, 1000, 2000, 5000, 10000 }, "var_MC_simul_standard_anti.csv");
-		//MC_simul_quasi_anti->variance_by_sims(150, { 10, 50, 100, 250, 500, 1000, 2000, 5000, 10000 }, "var_MC_simul_quasi_anti.csv");
-		//MC_simul_CV->variance_by_sims(150, { 10, 50, 100, 250, 500, 1000, 2000, 5000, 10000 }, "var_MC_simul_CV.csv");
-		//MC_simul_anti_CV->variance_by_sims(150, { 10, 50, 100, 250, 500, 1000, 2000, 5000, 10000 }, "var_MC_simul_anti_CV.csv");
-		//MC_simul_quasi_CV->variance_by_sims(150, { 10, 50, 100, 250, 500, 1000, 2000, 5000, 10000 }, "var_MC_simul_quasi_CV.csv");
-		//MC_simul_quasi_anti_CV->variance_by_sims(150, { 10, 50, 100, 250, 500, 1000, 2000, 5000, 10000 }, "var_MC_simul_quasi_anti_CV.csv");
-		
-
-		clock_t start, end;
-
-		start = clock();
-		MC_simul_standard->expectation_by_sims(200, { 10000 }, "exp_MC_simul_standard.csv");
-		end = clock();
-		
-		std::cout << "Standard : " << double(end - start) / double(CLOCKS_PER_SEC) / 200 << std::setprecision(5) << std::endl;
-
-		start = clock();
-		MC_simul_quasi->expectation_by_sims(200, { 10000 }, "exp_MC_simul_quasi.csv");
-		end = clock();
-
-		std::cout << "Quasi : " << double(end - start) / double(CLOCKS_PER_SEC) / 200 << std::setprecision(5) << std::endl;
-
-		start = clock();
-		MC_simul_standard_anti->expectation_by_sims(200, { 10000 }, "exp_MC_simul_standard_anti.csv");
-		end = clock();
-
-		std::cout << "Standard Antithetic : " << double(end - start) / double(CLOCKS_PER_SEC) / 200 << std::setprecision(5) << std::endl;
-
-		start = clock();
-		MC_simul_quasi_anti->expectation_by_sims(200, { 10000 }, "exp_MC_simul_quasi_anti.csv");
-		end = clock();
-
-		std::cout << "Quasi Antithetic : " << double(end - start) / double(CLOCKS_PER_SEC) / 200 << std::setprecision(5) << std::endl;
-
-		start = clock();
-		MC_simul_CV->expectation_by_sims(200, { 10000 }, "exp_MC_simul_CV.csv");
-		end = clock();
-
-		std::cout << "Standard CV : " << double(end - start) / double(CLOCKS_PER_SEC) / 200 << std::setprecision(5) << std::endl;
-
-		start = clock();
-		MC_simul_anti_CV->expectation_by_sims(200, { 10000 }, "exp_MC_simul_anti_CV.csv");
-		end = clock();
-
-		std::cout << "Antithetic CV : " << double(end - start) / double(CLOCKS_PER_SEC) / 200 << std::setprecision(5) << std::endl;
-
-		start = clock();
-		MC_simul_quasi_CV->expectation_by_sims(200, { 10000 }, "exp_MC_simul_quasi_CV.csv");
-		end = clock();
-
-		std::cout << "Quasi CV : " << double(end - start) / double(CLOCKS_PER_SEC) / 200 << std::setprecision(5) << std::endl;
-
-		start = clock();
-		MC_simul_quasi_anti_CV->expectation_by_sims(200, { 10000 }, "exp_MC_simul_quasi_anti_CV.csv");
-		end = clock();
-
-		std::cout << "Quasi Antithetic CV : " << double(end - start) / double(CLOCKS_PER_SEC) / 200 << std::setprecision(5) << std::endl;
+		MC_simul_standard->variance_by_sims(150, { 10, 50, 100, 250, 500, 1000, 2000, 5000, 10000}, "..\\Graphs\\var_MC_simul_standard_2A.csv");
+		MC_simul_quasi->variance_by_sims(150, { 10, 50, 100, 250, 500, 1000, 2000, 5000, 10000 }, "..\\Graphs\\var_MC_simul_quasi_2A.csv");
+		MC_simul_standard_anti->variance_by_sims(150, { 5, 25, 50, 125, 250, 500, 1000, 2500, 5000 }, "..\\Graphs\\var_MC_simul_standard_anti_2A.csv");
+		MC_simul_quasi_anti->variance_by_sims(150, { 5, 25, 50, 125, 250, 500, 1000, 2500, 5000 }, "..\\Graphs\\var_MC_simul_quasi_anti_2A.csv");
+		MC_simul_CV->variance_by_sims(150, { 10, 50, 100, 250, 500, 1000, 2000, 5000, 10000 }, "..\\Graphs\\var_MC_simul_CV_2A.csv");
+		MC_simul_anti_CV->variance_by_sims(150, { 5, 25, 50, 125, 250, 500, 1000, 2500, 5000 }, "..\\Graphs\\var_MC_simul_anti_CV_2A.csv");
+		MC_simul_quasi_CV->variance_by_sims(150, { 10, 50, 100, 250, 500, 1000, 2000, 5000, 10000 }, "..\\Graphs\\var_MC_simul_quasi_CV_2A.csv");
+		MC_simul_quasi_anti_CV->variance_by_sims(150, { 5, 25, 50, 125, 250, 500, 1000, 2500, 5000 }, "..\\Graphs\\var_MC_simul_quasi_anti_CV_2A.csv");
 
 	}
 	catch (std::exception & e)
