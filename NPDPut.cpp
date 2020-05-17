@@ -1,12 +1,13 @@
 #include "NPDPut.hpp"
 
-
+//constructor for the basket put
 NPDPut::NPDPut(double strike, std::vector<double> weights)
 	:NonPathDependent(strike), NPD_weights(weights)
 {
 	
 }
 
+//constructor for vanilla put
 NPDPut::NPDPut(double strike)
 	:NonPathDependent(strike)
 {

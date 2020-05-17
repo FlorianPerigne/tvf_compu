@@ -7,6 +7,7 @@ class NPDCall :public NonPathDependent
 {
 	
 public:
+	NPDCall(double strike, std::vector<double> weights, bool weight_bool);
 	NPDCall(double strike, std::vector<double> weights);
 	NPDCall(double strike);
 	
@@ -15,6 +16,7 @@ public:
 
 private:
 	std::vector<double> NPD_weights;
+	bool NPD_weight_power;
 };
 
 #endif

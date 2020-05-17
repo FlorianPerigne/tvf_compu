@@ -8,6 +8,8 @@
 #include <math.h>
 
 
+//code of numerical finance
+
 
 Sobol::Sobol(llong seed)
 	:QuasiGenerator(seed)

@@ -85,9 +85,9 @@ int main()
 
 			llong n_simu = 5000;
 
-				// Specific for the Longstaff-Schwartz
+			// Specific for the Longstaff-Schwartz
 
-				Basis* base = new BasisLaguerre(3);
+			Basis* base = new BasisLaguerre(3);
 
 
 		// For the variance reduction methods
@@ -121,7 +121,7 @@ int main()
 		// Solving the Monte Carlo object...
 
 		mc_solver->Solve();
-		std::cout << "Monte Carlo LSM price : " << mc_solver->get_price() << std::endl;
+		std::cout << "Monte Carlo price : " << mc_solver->get_price() << std::endl;
 
 		// Or using the Simulation class to have more possibilites and verify the properties of the solver
 

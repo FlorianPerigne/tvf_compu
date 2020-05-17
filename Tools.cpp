@@ -1,6 +1,7 @@
 #include "Tools.hpp"
 #include <cmath>
 
+//multiply M1 to M2 and print it in M3
 void mult_matrix(const std::vector<std::vector<double>>& M1, const std::vector<std::vector<double>>& M2, std::vector<std::vector<double>>& M3)
 {
 	if (M1[0].size() != M2.size())
@@ -24,6 +25,7 @@ void mult_matrix(const std::vector<std::vector<double>>& M1, const std::vector<s
 	
 }
 
+//multiply M1 to V1 and print it in V2
 void mult_matrix_vect(const std::vector<std::vector<double>>& M1, const std::vector<double>& V1, std::vector<double>& V2)
 {
 	if (M1[0].size() != V1.size())
@@ -44,6 +46,7 @@ void mult_matrix_vect(const std::vector<std::vector<double>>& M1, const std::vec
 	
 }
 
+//transpose M1 in M2
 void transpose_matrix(const std::vector<std::vector<double>>& M1, std::vector<std::vector<double>>& M2)
 {
 
@@ -58,7 +61,7 @@ void transpose_matrix(const std::vector<std::vector<double>>& M1, std::vector<st
 	}
 }
 
-
+//apply the decomposition of cholesky to A (from numerical finance)
 void Cholesky(std::vector<std::vector<double>>& A)
 {
 	long long i, j, k;
@@ -91,7 +94,7 @@ void Cholesky(std::vector<std::vector<double>>& A)
 	
 }
 
-//inverse matrix that is symetric define positive
+//inverse matrix that is symetric define positive (from numerical finance)
 void inv_sym_defpos(const std::vector<std::vector<double>>& A, std::vector<std::vector<double>>& Ainv)
 {
 	long long i, j, k;

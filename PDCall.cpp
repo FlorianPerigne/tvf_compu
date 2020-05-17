@@ -1,12 +1,13 @@
 #include "PDCall.hpp"
 
-
+//constructor of the path dependent basket call
 PDCall::PDCall(double strike, std::vector<double> weights)
 	:PathDependent(strike), PD_weights(weights)
 {
 	
 }
 
+//constructo of the vanilla call 
 PDCall::PDCall(double strike)
 	:PathDependent(strike)
 {
@@ -18,7 +19,7 @@ std::vector<double> PDCall::get_weights()
 	return PD_weights;
 }
 	
-	
+//reutrn the values of the call using the last step of time to evalue the payoff
 std::vector<double> PDCall::operator()(const std::vector<std::vector<std::vector<double>>>& x) const
 {
 	
@@ -42,6 +43,7 @@ std::vector<double> PDCall::operator()(const std::vector<std::vector<std::vector
 
 }
 
+//return the values of the call if we exercise at a specific date of time
 std::vector<double> PDCall::operator()(const std::vector<std::vector<std::vector<double>>>& x, llong k) const
 {
 	

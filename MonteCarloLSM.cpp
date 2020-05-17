@@ -3,17 +3,22 @@
 #include <numeric>
 #include <iomanip>
 
+
+//Constructor for classical LSM
 MonteCarloLSM::MonteCarloLSM(StocksFullPath* stocks, PathDependent* payoff, llong n_sims, Basis* BasisFunction)
 	: MonteCarlo(stocks, payoff, n_sims), LSM_Basis(BasisFunction)
 {
 }
 
+
+//for control variate with a PathDependent payoff
 MonteCarloLSM::MonteCarloLSM(StocksFullPath* stocks, PathDependent* payoff, llong n_sims, Basis* BasisFunction, PathDependent* payoff_CV, double closedFormValue)
 	: MonteCarlo(stocks, payoff, n_sims, payoff_CV, closedFormValue), LSM_Basis(BasisFunction)
 {
 	PD_or_NPD = 1;
 }
 
+//for control variate with a NonPathDependent payoff
 MonteCarloLSM::MonteCarloLSM(StocksFullPath* stocks, PathDependent* payoff, llong n_sims, Basis* BasisFunction, NonPathDependent* payoff_CV, double closedFormValue)
 	: MonteCarlo(stocks, payoff, n_sims, payoff_CV, closedFormValue), LSM_Basis(BasisFunction)
 {
@@ -25,32 +30,14 @@ MonteCarloLSM::MonteCarloLSM(StocksFullPath* stocks, PathDependent* payoff, llon
 void MonteCarloLSM::Solve()
 {
 	
-	std::vector<std::vector<std::vector<double>>> S(mc_stocks->Generate(N_sims));
-
-	// for (int i = 0;i<S.size(); ++i)
-	// {
-		// for (int j=0; j<S[0][0].size(); j++)
-		// {
-			// std::cout<<S[i][0][j]<<",";
-			
-		// }
-		// std::cout<<std::endl;
-	// }
-	
-	std::vector<double> P((*mc_payoff)(S, S[0][0].size()-1));
-	
-	// for (int i = 0;i<S.size(); ++i)
-	// {
-
-		// std::cout<<"Spot "<< 0.5*S[i][0][S[0][0].size()-1] + 0.5*S[i][1][S[0][0].size()-1]<<", price "<<P[i]<<std::endl;
-
-	// }
-	
-	
+	std::vector<std::vector<std::vector<double>>> S(mc_stocks->Generate(N_sims)); //generate stock path
+	std::vector<double> P((*mc_payoff)(S, S[0][0].size()-1));  //get the payoff at maturity
 	std::vector<double> itm_path(P.size());
 	std::vector<double> Weights(mc_payoff->get_weights());
 	
 	std::vector<double> P2;
+	
+	//get payoff at maturity for the control variate case
 	if (PD_or_NPD)
 	{
 		P2 = ((*MC_payoff_CV)(S, S[0][0].size()-1));
@@ -59,6 +46,7 @@ void MonteCarloLSM::Solve()
 	{
 		P2 = ((*MC_payoff_CV)(S));
 	}
+	
 	std::vector<double> itm_path2(P2.size());
 	std::vector<double> Weights2(MC_payoff_CV->get_weights());
 
@@ -96,7 +84,7 @@ void MonteCarloLSM::Solve()
 				itm_path[i] = 0;
 			}
 			
-			
+			//for the control variate case
 			if ((P2[i]>0) && PD_or_NPD)
 			{
 				itm_path2[i] = 1;
@@ -115,10 +103,10 @@ void MonteCarloLSM::Solve()
 			
 		}
 
-		std::vector<double> C_hat(Regression_C_Hat(X, Y));
+		std::vector<double> C_hat(Regression_C_Hat(X, Y)); //Regression of X on Y
 		std::vector<double> C_hat2;
 		std::vector<double> G2;
-		std::vector<double> G((*mc_payoff)(S, k));
+		std::vector<double> G((*mc_payoff)(S, k)); //compute the payoff at this step
 		
 		
 		if (X2.size()>0)
@@ -133,9 +121,9 @@ void MonteCarloLSM::Solve()
 		
 		for (llong i = 0; i<P.size(); i++)
 		{
-			if (itm_path[i] == 1)
+			if (itm_path[i] == 1) //if we are in the money we can look if it is better to continue or exercise
 			{
-
+				
 				if (G[i]>C_hat[c])
 				{
 					P[i] = G[i];
@@ -147,6 +135,7 @@ void MonteCarloLSM::Solve()
 				P[i] = std::exp(-r*dt)*P[i];
 			}
 			
+			//for the control variate case
 			if ((itm_path2[i] == 1) && PD_or_NPD)
 			{	
 
@@ -179,7 +168,7 @@ void MonteCarloLSM::Solve()
 	price = price + (closedFormValue - price2);
 }
 
-
+//Regression of X on Y 
 std::vector<double> MonteCarloLSM::Regression_C_Hat(const std::vector<double>& X, const std::vector<double>& Y)
 {
 	
@@ -191,14 +180,15 @@ std::vector<double> MonteCarloLSM::Regression_C_Hat(const std::vector<double>& X
 	std::vector<double> Beta;	
 	std::vector<double> C_hat;
 	
-	transpose_matrix(L, LT);
-	mult_matrix(LT,L,A);
-	inv_sym_defpos(A, Ainv);
 
-	mult_matrix(Ainv,LT,C);		
-	mult_matrix_vect(C, Y, Beta);
+	transpose_matrix(L, LT);	//L'
+	mult_matrix(LT,L,A);	//L'L
+	inv_sym_defpos(A, Ainv);   // (L'L)^-1
 
-	mult_matrix_vect(L, Beta, C_hat);
+	mult_matrix(Ainv,LT,C);		//(L'L)^-1 L'
+	mult_matrix_vect(C, Y, Beta); //beta = (L'L)^-1 L'Y
+
+	mult_matrix_vect(L, Beta, C_hat); //C_hat = beta L 
 	
 	return C_hat;
 	

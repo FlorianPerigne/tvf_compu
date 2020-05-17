@@ -5,6 +5,7 @@ BasisLaguerre::BasisLaguerre(llong number)
 {
 }
 
+//get the B_nb degree laguerre polynome
 double BasisLaguerre::get_Lk(double X)
 {
 
@@ -18,6 +19,7 @@ double BasisLaguerre::get_Lk(double X)
 	return L;
 }
 
+//get the kth degree laguerre polynome
 double BasisLaguerre::get_Lk(double X, llong k)
 {
 
@@ -31,7 +33,7 @@ double BasisLaguerre::get_Lk(double X, llong k)
 	return L;
 }
 
-
+//create the matrix (L_j(X_i))
 std::vector<std::vector<double>> BasisLaguerre::get_matrix_L(const std::vector<double>& X)
 {
 	std::vector<std::vector<double>> L;

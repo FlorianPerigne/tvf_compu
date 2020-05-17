@@ -1,5 +1,7 @@
 #include "NullPayoff.hpp"
 
+
+//the null payoff is useful for initialisation when we have no controle variate
 NullPayoff::NullPayoff(llong weights_size)
 	:weights_sz(weights_size)
 {
