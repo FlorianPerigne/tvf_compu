@@ -25,8 +25,6 @@
 
 #include "Payoff.hpp"
 #include "NonPathDependent.hpp"
-#include "NPDBasketCall.hpp"
-#include "NPDBasketPut.hpp"
 #include "PathDependent.hpp"
 #include "CFCall.hpp"
 #include "CFPut.hpp"
@@ -76,7 +74,7 @@ int main()
 
 		// Payoff definition
 
-			NonPathDependent* call_payoff = new NPDCall(100, weights); //si weights alors basket
+			NonPathDependent* call_payoff = new NPDCall(100, weights); // if weights are provided, then it's behaving as a basket option
 			NonPathDependent* Call_classic = new NPDCall(100);
 
 			PathDependent* call_payoff_PD = new PDCall(100, weights);
